@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Escenas/Enemigo.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/animated_asteroid2.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/animated_asteroid.png" type="Texture" id=7]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "Enemigo",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Variante2",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Variante3",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "Variante1",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 38.2018
+
+[node name="Enemigo" type="RigidBody2D"]
+position = Vector2( 268.509, 96.4325 )
+collision_layer = 0
+gravity_scale = 0.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+velocidad_min = 150
+velocidad_max = 250
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 1.28539, 1.24557 )
+frames = SubResource( 1 )
+animation = "Variante1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 1.22828, 1.05093 )
+shape = SubResource( 2 )
+
+[node name="Visibilidad" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 0.198425, 0.496063 )
+scale = Vector2( 2.53529, 2.87818 )
+
+[connection signal="screen_exited" from="Visibilidad" to="." method="_on_Visibilidad_screen_exited"]

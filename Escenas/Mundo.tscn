@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Escenas/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Escenas/Enemigo.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Escenas/Mundo.gd" type="Script" id=3]
+[ext_resource path="res://Escenas/Interfaz.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Sprites/BackgroudAsteroids.jpg" type="Texture" id=5]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -0.532349, -0.176331, 0, 0, 0, 0, 639.383, -0.176331, 0, 0, 0, 0, 641.502, 961.816, 0, 0, 0, 0, 1.58667, 959.697, 0, 0, 0, 0, -0.532349, -0.176331 )
+}
+
+[node name="Mundo" type="Node"]
+script = ExtResource( 3 )
+Enemigo = ExtResource( 2 )
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 659.0
+margin_top = -124.0
+margin_right = 2579.0
+margin_bottom = 956.0
+rect_rotation = 89.8764
+rect_scale = Vector2( 0.638585, 0.638585 )
+texture = ExtResource( 5 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 133, 163 )
+scale = Vector2( 1.87758, 1.75699 )
+Velocidad = 300
+
+[node name="EnemigoTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="InicioTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="PosicionDeInicio" type="Position2D" parent="."]
+position = Vector2( 320, 480 )
+
+[node name="Camino" type="Path2D" parent="."]
+curve = SubResource( 1 )
+
+[node name="EnemigoPosicion" type="PathFollow2D" parent="Camino"]
+position = Vector2( -0.532349, -0.176331 )
+rotation = -3.81337e-09
+
+[node name="Interfaz" parent="." instance=ExtResource( 4 )]
+
+[connection signal="golpe" from="Player" to="." method="game_over"]
+[connection signal="timeout" from="EnemigoTimer" to="." method="_on_EnemigoTimer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
+[connection signal="timeout" from="InicioTimer" to="." method="_on_InicioTimer_timeout"]
+[connection signal="iniciar_juego" from="Interfaz" to="." method="nuevo_juego"]
